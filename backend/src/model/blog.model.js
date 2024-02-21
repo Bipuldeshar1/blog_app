@@ -13,26 +13,7 @@ const blogSchema = new mongoose.Schema({
     type:String,
     required:true,
   }],
-  like:[
-    {type:Schema.Types.ObjectId,
-    ref:"Like"
-    }
-  ],
-  comments: [
-    {
-      cmt: {
-        type: String,
-        default:null
-      },
-      cmtBy: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-        required:true,
-        
-      },
-    },
-  ],
-
+ 
   owner:{
     type:Schema.Types.ObjectId,
     ref:"User",
