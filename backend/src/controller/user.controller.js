@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 
 const generateAccessAndRefreshToken= async(userId) =>{
     try {
+        console.log('reg');
         const user= await User.findById(userId)
         if (!user) {
             throw new Error('User not found');
@@ -53,7 +54,10 @@ const registeruser = async (req, res) => {
 
 const loginUser =async(req,res) =>{
    try {
+  
     const{email,password} =req.body;
+    console.log('login');
+    
 
   
     if (!email || !password) {
@@ -61,6 +65,7 @@ const loginUser =async(req,res) =>{
     }
 
    const user =await User.findOne({email});
+  
    if (!user) {
     return res.status(400).json(new ApiResponse(400, { user }, 'User not found'));
 }
@@ -73,12 +78,12 @@ const loginUser =async(req,res) =>{
 
 const{accessToken, refreshToken}=await generateAccessAndRefreshToken(user._id)
 
-const loggedInUser=await User.findById(user._id).select("-password -refreshToken");
+const loggedInUser=await User.findById(user._id);
 
 
 
 return res.status(200).json(new ApiResponse(200,{
-    user:loggedInUser.toObject(),accessToken,refreshToken
+    loggedInUser,accessToken,refreshToken
  },
  "user logged in success"
  ))

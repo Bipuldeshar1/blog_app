@@ -4,7 +4,7 @@ import verifyJWt from "../middlewares/auth.middleware.js"
 import { addblog, deleteblog, getAllblog, getsingle, updateblog } from '../controller/blog.controller.js';
 const router=express.Router();
 
-router.use(verifyJWt);
+ router.use(verifyJWt);
 router.route("/addBlog").post(
     upload.fields([
         {

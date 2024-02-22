@@ -35,6 +35,7 @@ const addblog=async(req,res) =>{
 
 }
 const getAllblog= async(req,res) =>{
+    console.log('fetching');
   const blogs= await Blog.find();
 
   return res.status(200).json(
