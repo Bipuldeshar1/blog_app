@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/api/apiservice.dart';
+import 'package:frontend/api/likeapi.dart';
 import 'package:frontend/model/blog.model.dart';
 import 'package:frontend/model/userModel.dart';
 import 'package:frontend/provider/blog_provider.dart';
 import 'package:frontend/views/blog/userprofile.dart';
+import 'package:frontend/views/widgets/cardlayot.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     BlogProvider blogProvider = Provider.of<BlogProvider>(context);
     ApiService a = ApiService();
+    LikeApi la = LikeApi();
 
     return Scaffold(
       appBar: AppBar(
@@ -52,25 +55,30 @@ class _HomePageState extends State<HomePage> {
           builder: (context, AsyncSnapshot<List<BlogModel>> snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(snapshot.data![index].title),
-                    subtitle: Text(snapshot.data![index].description),
-                    trailing: InkWell(
-                        onTap: () {
-                          setState(() {
-                            a.deleteBlog(
-                              snapshot.data![index],
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    var data = snapshot.data![index];
+
+                    return Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            la.addLike(
+                              data.id.toString(),
                               widget.accessToken,
                               widget.refreshToken,
                             );
-                          });
-                        },
-                        child: Icon(Icons.delete)),
-                  );
-                },
-              );
+                          },
+                          child: CardWidget(
+                            image: data.images[0],
+                            userName: 'xxx',
+                            title: data.title,
+                            description: data.description,
+                          ),
+                        ),
+                      ],
+                    );
+                  });
             } else {
               return Text('no data');
             }

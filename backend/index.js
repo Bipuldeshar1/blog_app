@@ -4,7 +4,7 @@ import userRoute from "./src/routes/user.routes.js"
 import cors from "cors"
 import dotenv from "dotenv"
 import blogRoute from "./src/routes/blog.routes.js";
-
+import likeRoute from './src/routes/like.routes.js';
 
 const app= express();
 
@@ -25,4 +25,5 @@ connectDB().then(app.listen(PORT,'0.0.0.0', () =>{
 
 app.use("/api/v1/blog",blogRoute)
 app.use("/api/v1/user",userRoute)
+app.use("/api/v1/like",likeRoute)
 
